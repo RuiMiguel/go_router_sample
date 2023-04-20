@@ -1,41 +1,45 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_router_sample/detail/detail_page.dart';
-import 'package:go_router_sample/error/error_page.dart';
-import 'package:go_router_sample/home/home_page.dart';
-import 'package:go_router_sample/login/login_page.dart';
+import 'package:go_router_sample/home/home.dart';
+
+// private navigators
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter router = GoRouter(
-  errorBuilder: (context, state) => const ErrorPage(),
   debugLogDiagnostics: true,
+  initialLocation: '/a',
+  navigatorKey: _rootNavigatorKey,
   routes: [
-    GoRoute(
-      name: 'root',
-      path: '/',
-      redirect: (context, state) {
-        final userIsNotLoggedIn =
-            state.queryParams['logged']?.toLowerCase() != 'true';
-        if (userIsNotLoggedIn) {
-          return '/login';
-        }
-        return '/home';
+    ShellRoute(
+      navigatorKey: _shellNavigatorKey,
+      builder: (context, state, child) {
+        return ScaffoldWithBottomNavBar(child: child);
       },
-    ),
-    GoRoute(
-      name: 'login',
-      path: '/login',
-      builder: (context, state) => const LoginPage(),
-    ),
-    GoRoute(
-      name: 'home',
-      path: '/home',
-      builder: (context, state) => const HomePage(),
       routes: [
         GoRoute(
-          name: 'detail',
-          path: 'detail/:name',
-          builder: (context, state) => DetailPage(
-            name: state.params['name']!,
+          path: '/a',
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: RootScreen(label: 'A', detailsPath: '/a/details'),
           ),
+          routes: [
+            GoRoute(
+              path: 'details',
+              builder: (context, state) => const DetailsScreen(label: 'A'),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: '/b',
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: RootScreen(label: 'B', detailsPath: '/b/details'),
+          ),
+          routes: [
+            GoRoute(
+              path: 'details',
+              builder: (context, state) => const DetailsScreen(label: 'B'),
+            ),
+          ],
         ),
       ],
     ),
