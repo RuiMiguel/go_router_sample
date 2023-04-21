@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ScaffoldWithBottomNavBar extends StatefulWidget {
-  const ScaffoldWithBottomNavBar({
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({
     required this.child,
     super.key,
   });
@@ -10,11 +10,10 @@ class ScaffoldWithBottomNavBar extends StatefulWidget {
   final Widget child;
 
   @override
-  State<ScaffoldWithBottomNavBar> createState() =>
-      _ScaffoldWithBottomNavBarState();
+  State<SettingsPage> createState() => SettingsPageState();
 }
 
-class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
+class SettingsPageState extends State<SettingsPage> {
   late final List<NavBarTabItem> tabs;
 
   // getter that computes the current index from the current location,
@@ -41,36 +40,54 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
     super.initState();
     tabs = const [
       NavBarTabItem(
-        initialLocation: '/a',
+        initialLocation: '/settings',
         icon: Icon(Icons.home),
-        label: 'Section A',
+        label: 'Settings',
       ),
       NavBarTabItem(
-        initialLocation: '/b',
+        initialLocation: '/profile',
         icon: Icon(Icons.settings),
-        label: 'Section B',
+        label: 'Profile',
+      ),
+      NavBarTabItem(
+        initialLocation: '/theme',
+        icon: Icon(Icons.design_services),
+        label: 'Theme',
       ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: widget.child,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        items: tabs,
-        onTap: (index) => _onItemTapped(context, index),
+    return WillPopScope(
+      onWillPop: () async {
+        context.go('/home');
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('SETTINGS'),
+          leading: BackButton(
+            onPressed: () => context.go('/home'),
+          ),
+        ),
+        body: widget.child,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          items: tabs,
+          onTap: (index) => _onItemTapped(context, index),
+        ),
       ),
     );
   }
 }
 
-/// Representation of a tab item in the [ScaffoldWithBottomNavBar]
 class NavBarTabItem extends BottomNavigationBarItem {
-  const NavBarTabItem(
-      {required this.initialLocation, required Widget icon, String? label})
-      : super(icon: icon, label: label);
+  const NavBarTabItem({
+    required this.initialLocation,
+    required super.icon,
+    super.label,
+  }) : super();
 
   /// The initial location/path
   final String initialLocation;
