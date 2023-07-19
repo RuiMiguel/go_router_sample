@@ -17,7 +17,7 @@ class ErrorPage extends StatelessWidget {
           children: [
             const Text('OPS, there was an error on navigation'),
             ElevatedButton(
-              onPressed: () => context.go('/home'),
+              onPressed: () => context.go('/news'),
               child: const Text('Go to Home'),
             ),
           ],

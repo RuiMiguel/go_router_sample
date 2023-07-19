@@ -61,7 +61,7 @@ class RoutingNavigator {
 
   static GoRouter mainRouter = GoRouter(
     navigatorKey: mainNavigatorKey,
-    initialLocation: '/home',
+    initialLocation: '/news',
     routes: [
       ShellRoute(
         navigatorKey: homeNavigatorKey,
@@ -70,8 +70,8 @@ class RoutingNavigator {
         },
         routes: [
           GoRoute(
-            name: 'home',
-            path: '/home',
+            name: 'news',
+            path: '/news',
             parentNavigatorKey: homeNavigatorKey,
             builder: (context, state) => const NewsPage(),
             routes: [
@@ -80,7 +80,7 @@ class RoutingNavigator {
                 path: 'details/:id',
                 parentNavigatorKey: mainNavigatorKey,
                 builder: (context, state) =>
-                    DetailsPage(id: state.params['id'] ?? ''),
+                    DetailsPage(id: state.pathParameters['id'] ?? ''),
               ),
             ],
           ),
@@ -114,7 +114,7 @@ class RoutingNavigator {
                 name: 'resetPassword',
                 path: 'resetPassword',
                 builder: (context, state) => ResetPasswordPage(
-                  editable: (state.queryParams['editable'] ?? 'false')
+                  editable: (state.queryParameters['editable'] ?? 'false')
                           .toLowerCase() ==
                       'true',
                 ),

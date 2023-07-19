@@ -23,6 +23,7 @@ class LoginPage extends StatelessWidget {
             onPressed: cubit.logIn,
             child: const Text('Login'),
           ),
+          const SizedBox(height: 5),
           if (authState == AuthStatus.authenticating)
             const CircularProgressIndicator(),
           Row(

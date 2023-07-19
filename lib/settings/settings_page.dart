@@ -18,7 +18,8 @@ class SettingsPageState extends State<SettingsPage> {
 
   // getter that computes the current index from the current location,
   // using the helper method below
-  int get _currentIndex => _locationToTabIndex(GoRouter.of(context).location);
+  int get _currentIndex =>
+      _locationToTabIndex(GoRouterState.of(context).location);
 
   int _locationToTabIndex(String location) {
     final index =
@@ -61,14 +62,14 @@ class SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        context.go('/home');
+        context.go('/news');
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('SETTINGS'),
           leading: BackButton(
-            onPressed: () => context.go('/home'),
+            onPressed: () => context.go('/news'),
           ),
         ),
         body: widget.child,

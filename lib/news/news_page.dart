@@ -14,7 +14,7 @@ class NewsPage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           child: Text('Go to detail $random'),
-          onPressed: () => context.push('/home/details/$random'),
+          onPressed: () => context.push('/news/details/$random'),
         ),
       ),
     );

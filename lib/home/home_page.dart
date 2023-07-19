@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
               label: 'News',
               onTap: () {
                 _scaffoldKey.currentState?.openEndDrawer();
-                context.go('/home');
+                context.go('/news');
               },
             ),
             ListTileItem(
